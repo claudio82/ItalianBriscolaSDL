@@ -1,0 +1,12 @@
+#pragma once
+#include "TextRenderer.h"
+#include "Timer.h"
+
+// Class to render text on screen for some duration
+class TextRendererTimer : public TextRenderer, public Timer {
+
+public:
+	TextRendererTimer();
+
+	// Combines functions from TextRenderer & Timer
+};
