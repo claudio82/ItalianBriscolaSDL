@@ -204,6 +204,11 @@ void Player::addCardToHand(Card& card, int index, int xStart, int yStart, int ca
     hand.insert(hand.begin() + index, card); //.push_back(card);
 }
 
+void Player::updateCardPos(Card& card, int index, int xStart, int cardWidth)
+{
+    card.mPosition.x = xStart + cardWidth * 1 * index;
+}
+
 Card Player::pickCardFromHand(int index)
 {
     Card c;

@@ -267,12 +267,23 @@ void Game::update()
             }
             else
             {
-                //briscola.player.hand.size() < 3
-                for (int i = 0; i < briscola.player.hand.size(); i++)
+                if (roundNo == 18)
                 {
-                    Card c = briscola.player.hand.at(i);
-                    c.mPosition.x = 490 + i * 200; 
+                    if (briscola.player.selCardIdx == 0)
+                    {
+                        for (int i = 0; i < briscola.player.hand.size(); i++)
+                        {
+                            briscola.player.updateCardPos(briscola.player.hand.at(i), i, 480, 200);
+                        }
+                    }
                 }
+
+                //briscola.player.hand.size() < 3
+                // for (int i = 0; i < briscola.player.hand.size(); i++)
+                // {
+                //     Card c = briscola.player.hand.at(i);
+                //     c.mPosition.x = 490 + i * 200; 
+                // }
             }
             ++roundNo;
 
@@ -446,34 +457,6 @@ int Game::cpuAttackLogic()
 		    i = 0;
     }
 
-    /*
-    for (int i = 0; i < briscola.cpu.hand.size(); i++)
-    {
-        if ((int)briscola.cpu.hand.at(i).suit == (int)briscola.briscolaCard.suit)
-        {
-            //briscola.cpu.hand.at(i).strength += 20;
-        }
-
-        if (briscola.cpu.hand.at(i).value < minpts)
-        {
-            minpts = briscola.cpu.hand.at(i).value;
-            minstr = briscola.cpu.hand.at(i).strength;
-            chose = i;
-        }
-        else
-        {
-            if (briscola.cpu.hand.at(i).value == minpts && briscola.cpu.hand.at(i).strength < minstr)
-            {
-                minpts = briscola.cpu.hand.at(i).value;
-                minstr = briscola.cpu.hand.at(i).strength;
-                chose = i;
-            }
-        }
-    }
-    
-    return chose;
-    */
-
     return i;
 }
 
@@ -564,75 +547,12 @@ int Game::cpuDefenseLogic()
     }
     i = 0;
     return i;
-
-    /*
-    if ((int)briscola.p1DroppedCard.suit == (int)briscola.briscolaCard.suit)
-    {
-        briscola.p1DroppedCard.strength += 20;
-    }
-
-    for (int i = 0; i < briscola.cpu.hand.size(); i++)
-    {
-        if ((int)briscola.cpu.hand.at(i).suit == (int)briscola.briscolaCard.suit)
-        {
-            briscola.cpu.hand.at(i).strength += 20;
-        }
-        if ((int)briscola.cpu.hand.at(i).suit != (int)briscola.p1DroppedCard.suit && (int)briscola.p1DroppedCard.suit != (int)briscola.briscolaCard.suit)
-        {
-            incstr = 10;
-        }
-        else
-        {
-            incstr = 0;
-        }
-
-        if (briscola.cpu.hand.at(i).strength > briscola.p1DroppedCard.strength + incstr)
-        {
-            taken = true;
-
-            if (briscola.cpu.hand.at(i).value + briscola.p1DroppedCard.value > maxpts)
-            {
-                maxpts = briscola.cpu.hand.at(i).value + briscola.p1DroppedCard.value;
-                minstr = briscola.cpu.hand.at(i).strength;
-                chose = i;
-            }
-            else
-            {
-                if (briscola.cpu.hand.at(i).value + briscola.p1DroppedCard.value == maxpts && briscola.cpu.hand.at(i).strength < minstr)
-                {
-                    minstr = briscola.cpu.hand.at(i).strength;
-                    chose = i;
-                }
-            }
-        }
-        else
-        {
-            if (!taken)
-            {
-                if (briscola.cpu.hand.at(i).value + briscola.p1DroppedCard.value < minpts)
-                {
-                    minpts = briscola.cpu.hand.at(i).value + briscola.p1DroppedCard.value;
-                    minstr = briscola.cpu.hand.at(i).strength;
-                    chose = i;
-                }
-                else {
-                    if (briscola.cpu.hand.at(i).value + briscola.p1DroppedCard.value == minpts && briscola.cpu.hand.at(i).strength < minstr) {
-                        minstr = briscola.cpu.hand.at(i).strength;
-                        chose = i;
-                    }
-                }
-            }
-        }
-    }
-
-    return chose;
-    */
 }
 
 void Game::renderWinMessage()
 {
     // Message rectangle position
-	messageRect = { 690, 335, 240, 61 };
+	messageRect = { 590, 335, 240, 61 };
 
 	// Display message if winner message timer is active
 	if (textRenFS50.active()) {
