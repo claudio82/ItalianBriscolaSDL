@@ -89,6 +89,8 @@ public:
     // Adds card to player's 'hand' at given index
     void addCardToHand(Card& card, int index, int xStart, int yStart, int cardWidth, int cardHeight, int widthMultiplier, bool hidden);
 
+    void updateCardPos(Card& card, int index, int xStart, int cardWidth);
+
     // Gets card from hand at given index
     Card pickCardFromHand(int index);
 
