@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 {
     // Fullscreen mode
     bool fullscreen = false;
-    int FPS = 24;
+    int FPS = 60;
 
     // Initialize the game
     game = new Game();
