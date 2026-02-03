@@ -52,6 +52,7 @@ private:
     // Gameplay state flags
     bool playerTurn;
     int roundNo;
+    int cpuLastPlayedIdx;
 
     // Timers
     Timer playedTurnTimer;
