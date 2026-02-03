@@ -166,7 +166,8 @@ void Game::handleEvents()
                 SDL_Delay(200);
 
                 // cpu plays
-                int cpuChosenIdx = cpuDefenseLogic(); 
+                int cpuChosenIdx = cpuDefenseLogic();
+                cpuLastPlayedIdx = cpuChosenIdx;
                 briscola.cpuDroppedCard = briscola.cpu.pickCardFromHand(cpuChosenIdx);
                 briscola.cpuDroppedCard.hidden = false;
 
@@ -250,12 +251,12 @@ void Game::update()
                     briscola.player.addCardToHand(briscola.deck.cards.back(), briscola.player.selCardIdx, 490, 440, 200, 280, 1, false);
                     briscola.deck.cards.pop_back();
 
-                    briscola.cpu.addCardToHand(briscola.deck.cards.back(), 0, 490, 50, 200, 280, 1, true);
+                    briscola.cpu.addCardToHand(briscola.deck.cards.back(), cpuLastPlayedIdx, 490, 50, 200, 280, 1, true);
                     briscola.deck.cards.pop_back();
                 }
                 else
                 {
-                    briscola.cpu.addCardToHand(briscola.deck.cards.back(), 0, 490, 50, 200, 280, 1, true);
+                    briscola.cpu.addCardToHand(briscola.deck.cards.back(), cpuLastPlayedIdx, 490, 50, 200, 280, 1, true);
                     briscola.deck.cards.pop_back();
 
                     briscola.player.addCardToHand(briscola.deck.cards.back(), briscola.player.selCardIdx, 490, 440, 200, 280, 1, false);
@@ -264,19 +265,40 @@ void Game::update()
                 }
                 if (roundNo == 17)
                     briscola.briscolaCard.hidden = true;
+                
+                briscola.player.selCardIdx = -1;
             }
             else
             {
                 if (roundNo == 18)
                 {
+                    
+                    
                     if (briscola.player.selCardIdx == 0)
                     {
                         for (int i = 0; i < briscola.player.hand.size(); i++)
                         {
-                            briscola.player.updateCardPos(briscola.player.hand.at(i), i, 480, 200);
+                            std::cout << "fix x position of card " << i << std::endl;
+                            briscola.player.updateCardPos(briscola.player.hand.at(i), i, 490, 200);
                         }
+            
+                    }
+                    if (briscola.player.selCardIdx == 1)
+                    {
+                        briscola.player.updateCardPos(briscola.player.hand.at(1), 1, 490, 200);
+                    }
+                    
+                }
+                if (roundNo == 19)
+                {
+                    if (briscola.player.selCardIdx == 0)
+                    {
+                        
+                        briscola.player.updateCardPos(briscola.player.hand.at(0), 0, 490, 200);
                     }
                 }
+
+                briscola.player.selCardIdx = -1;
 
                 //briscola.player.hand.size() < 3
                 // for (int i = 0; i < briscola.player.hand.size(); i++)
@@ -296,6 +318,7 @@ void Game::update()
                 {
                     // cpu plays first
                     int cpuChosenIdx = cpuAttackLogic();
+                    cpuLastPlayedIdx = cpuChosenIdx;
                     briscola.cpuDroppedCard = briscola.cpu.pickCardFromHand(cpuChosenIdx);
                     briscola.cpuDroppedCard.hidden = false;
 
@@ -401,6 +424,8 @@ void Game::startANewGame()
     roundNo = 0;
     briscola.player.setScore(0);
     briscola.cpu.setScore(0);
+
+    cpuLastPlayedIdx = -1;
 
     setFirstHand();
 }
