@@ -2,6 +2,7 @@
 #include "AssetManager.h"
 #include "TextureManager.h"
 #include "ErrorMessage.h"
+#include "Constants.h"
 
 AssetManager* Game::assets = new AssetManager();
 TextureManager* manager;
@@ -68,7 +69,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
         SDL_Texture* deck = assets->getTexture("deck");
         // Player's & Cpu's hand drawers initialization 
-		if (playerDrawer.init(deck, renderer, &briscola.player, 490, 440, 200, 280, 0))
+		if (playerDrawer.init(deck, renderer, &briscola.player, 490, Y_PL_HAND_POS, 200, 280, 0))
         {
             std::cout << "[INFO] PlayerDrawer created." << std::endl;
         }
@@ -248,7 +249,7 @@ void Game::update()
                 // players can draw from deck
                 if (playerTurn)
                 {
-                    briscola.player.addCardToHand(briscola.deck.cards.back(), briscola.player.selCardIdx, 490, 440, 200, 280, 1, false);
+                    briscola.player.addCardToHand(briscola.deck.cards.back(), briscola.player.selCardIdx, 490, Y_PL_HAND_POS, 200, 280, 1, false);
                     briscola.deck.cards.pop_back();
 
                     briscola.cpu.addCardToHand(briscola.deck.cards.back(), cpuLastPlayedIdx, 490, 50, 200, 280, 1, true);
@@ -259,7 +260,7 @@ void Game::update()
                     briscola.cpu.addCardToHand(briscola.deck.cards.back(), cpuLastPlayedIdx, 490, 50, 200, 280, 1, true);
                     briscola.deck.cards.pop_back();
 
-                    briscola.player.addCardToHand(briscola.deck.cards.back(), briscola.player.selCardIdx, 490, 440, 200, 280, 1, false);
+                    briscola.player.addCardToHand(briscola.deck.cards.back(), briscola.player.selCardIdx, 490, Y_PL_HAND_POS, 200, 280, 1, false);
                     briscola.deck.cards.pop_back();
                     
                 }
@@ -278,7 +279,7 @@ void Game::update()
                     {
                         for (int i = 0; i < briscola.player.hand.size(); i++)
                         {
-                            std::cout << "fix x position of card " << i << std::endl;
+                            // fix x position of card i
                             briscola.player.updateCardPos(briscola.player.hand.at(i), i, 490, 200);
                         }
             
@@ -299,17 +300,8 @@ void Game::update()
                 }
 
                 briscola.player.selCardIdx = -1;
-
-                //briscola.player.hand.size() < 3
-                // for (int i = 0; i < briscola.player.hand.size(); i++)
-                // {
-                //     Card c = briscola.player.hand.at(i);
-                //     c.mPosition.x = 490 + i * 200; 
-                // }
             }
             ++roundNo;
-
-            //briscola.player.selCardIdx = -1;
 
             if (!playerTurn)
             {
@@ -325,7 +317,6 @@ void Game::update()
                     std::cout << "-- CPU played card: " << briscola.cpuDroppedCard.getName() << " of " << briscola.cpuDroppedCard.getSuit() << std::endl;
                 }
             }
-            //playerTurn = true;
         }
         
     }
@@ -427,6 +418,8 @@ void Game::startANewGame()
 
     cpuLastPlayedIdx = -1;
 
+    std::cout << "\nStarting a new game..." << std::endl;
+
     setFirstHand();
 }
 
@@ -438,7 +431,7 @@ void Game::setFirstHand()
         //std::cout << "[INFO] Giving cards..." << std::endl;
         for (int i = 0; i < 3; i++)
         {
-            briscola.player.addCardToHand(briscola.deck.cards.back(), i, 490, 440, 200, 280, 1, false);
+            briscola.player.addCardToHand(briscola.deck.cards.back(), i, 490, Y_PL_HAND_POS, 200, 280, 1, false);
             briscola.deck.cards.pop_back();
 
             briscola.cpu.addCardToHand(briscola.deck.cards.back(), i, 490, 50, 200, 280, 1, true);
@@ -453,6 +446,7 @@ void Game::setFirstHand()
         briscola.briscolaCard = briscola.deck.cards.back();
         briscola.deck.cards.pop_back();
         briscola.briscolaCard.hidden = false;
+        std::cout << "Briscola card: " << briscola.briscolaCard.getName() << " of " << briscola.briscolaCard.getSuit() << std::endl;
 
         briscola.deck.cards.emplace(briscola.deck.cards.begin(), briscola.briscolaCard);
 

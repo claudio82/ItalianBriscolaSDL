@@ -1,4 +1,5 @@
 #include "Briscola.h"
+#include "Constants.h"
 
 Card::Card()
 {
@@ -119,7 +120,7 @@ void Card::handleEvent(SDL_Event* e)
 			{
                 case SDL_EVENT_MOUSE_BUTTON_DOWN:
                     selected = true;
-                    std::cerr << getName() << " of " << getSuit() << " Clicked ! ! !" << std::endl;
+                    //std::cerr << getName() << " of " << getSuit() << " Clicked ! ! !" << std::endl;
                     break;
                 case SDL_EVENT_MOUSE_BUTTON_UP:
                     break;
@@ -338,21 +339,25 @@ void Briscola::handleEvent(SDL_Event* e)
 		float x, y;
 		SDL_GetMouseState(&x, &y);
 
-		for (int i = 0; i < player.hand.size(); i++)
-		{
-			player.hand.at(i).handleEvent(e);
+        if (y >= Y_PL_HAND_POS)
+        {
 
-			//if a card was clicked on, select that card, deselect all other cards
-			if (player.hand.at(i).selected == true)
-			{
-				player.selCardIdx = i;
-				for (int j = 0; j < player.hand.size(); j++)
-				{
-					if (j != player.selCardIdx)
-						player.hand.at(j).selected = false;
-				}
-			}
-		}
+		    for (int i = 0; i < player.hand.size(); i++)
+		    {
+			    player.hand.at(i).handleEvent(e);
+
+			    //if a card was clicked on, select that card, deselect all other cards
+			    if (player.hand.at(i).selected == true)
+			    {
+				    player.selCardIdx = i;
+				    for (int j = 0; j < player.hand.size(); j++)
+				    {
+					    if (j != player.selCardIdx)
+						    player.hand.at(j).selected = false;
+				    }
+			    }
+		    }
+        }
     }
 }
 

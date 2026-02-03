@@ -1,5 +1,6 @@
 #include <string>
 #include "Game.h"
+#include "Constants.h"
 
 Game* game = nullptr;
 
@@ -7,11 +8,10 @@ int main(int argc, char** argv)
 {
     // Fullscreen mode
     bool fullscreen = false;
-    int FPS = 60;
 
     // Initialize the game
     game = new Game();
-    game->init("ItalianBriscolaSDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, fullscreen);
+    game->init("ItalianBriscolaSDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_W, SCREEN_H, fullscreen);
 
     const int frameDelay = 1000 / FPS;
     Uint32 frameStart, frameTime;
